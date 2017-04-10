@@ -1,0 +1,39 @@
+{{#extend "layout"}}
+  {{#content "head" mode="append"}}
+      <link rel="stylesheet" href="../styles/index.less" />
+  {{/content}}
+
+  {{#content "body"}}
+    <div class="valign-wrapper full-container">
+      <span class="valign full-width center-align">
+        <h5> Welcome </h5>
+      <div class="row">
+          <div class="tab-row col s4 offset-s4">
+            <span class="tab active login-tab-button"> Login </span>
+            <span class="tab register-tab-button"> Register </span>
+          </div>
+          <div class="col s4 offset-s4 login-tab">
+            <form id="frmLogin">
+              <input type="email"  name="email" placeholder="Email" />
+              <input type="password" name="password" placeholder="Password" />
+              <button type="submit" class="waves-effect waves-light btn green">Login</button>
+            </form>
+          </div>
+          <div class="col s4 offset-s4 register-tab">
+            <form id="frmRegister">
+              <input type="email" name="email" placeholder="Email" />
+              <input type="password" name="password" placeholder="Password" />
+              <button type="submit" class="waves-effect- waves-light btn green"> Register </button>
+            </form>
+          </div>
+      </div>
+      </span>
+    </div>
+  {{/content}}
+
+  {{#content "foot" mode="prepend"}}
+    <script>
+      require('../controllers/index.js')
+    </script>
+  {{/content}}
+{{/extend}}

@@ -1,0 +1,16 @@
+{{#extend "layout"}}
+  {{#content "head" mode="append"}}
+    <link rel="stylesheet" href="../styles/game.less" />
+  {{/content}}
+
+  {{#content "body"}}
+    <canvas width="1920" height="1080" id="cnvs" class="canvas"> </canvas>
+  {{/content}}
+
+  {{#content "foot" mode="prepend"}}
+    <script src="https://code.createjs.com/easeljs-0.8.2.min.js" type="text/javascript"> </script>
+    <script>
+      require('../controllers/game.js')
+    </script>
+  {{/content}}
+{{/extend}}
