@@ -3,14 +3,15 @@ const ctx = canvas.getContext("2d");
 const network = require('../network');
 const Player = require('../../lib/models/player');
 const Vector2 = require('../../lib/core/vector2');
-const Systems = require('../../lib/systems/Systems');
-const Gravity = require('../../lib/systems/Gravity');
-
+const Systems = require('../../lib/systems/systems');
+const Gravity = require('../../lib/systems/gravity');
+const World = require('../../lib/world/world');
 let sub = localStorage.getItem('character-sub');
 let players = [];
 let character = JSON.parse(localStorage.getItem('character'));
 let stage;
 let systems;
+let world;
 
 function init() {
   stage = new createjs.Stage('cnvs');
@@ -18,9 +19,10 @@ function init() {
     stage.addChild(entity);
     systems.addEntity(entity);
   };
-
-  createjs.Ticker.setFPS(60);
   systems = new Systems(new Gravity());
+
+  world = new World('Shaitans', stage);
+  createjs.Ticker.setFPS(60);
 
   if (!network.connected) {
     network.connect(sub);
@@ -40,7 +42,7 @@ function onPlayerDisconnect(msg) {
 }
 
 function onPlayerConnect(msg) {
-  
+
   let char = new Player(
     { _heroId : msg.data.hero._heroId, name: msg.data.name,
     publicId: msg.data._id },
@@ -63,6 +65,9 @@ function onPlayerInput(msg) {
 }
 
 function tick(event) {
+  if (world.map.world){
+    // world.map.world.regY += 0.5 * event.delta;
+  }
   stage.update(event);
 }
 
@@ -73,7 +78,10 @@ network.onPlayerInputHandler = onPlayerInput;
 
 init();
 
-$(window).resize(() => {
-  $('#cnvs').width($(window).width() - 2);
-  $('#cnvs').height($(window).height() - 2);
-});
+function resize_canvas(){
+  world.map.world.regY = ((world.map.mapData.height * world.map.mapData.tileheight) - window.innerHeight);
+  $('#cnvs').attr('width', window.innerWidth);
+  $('#cnvs').attr('height', window.innerHeight);
+}
+$(document).ready(resize_canvas);
+$(window).resize(resize_canvas);

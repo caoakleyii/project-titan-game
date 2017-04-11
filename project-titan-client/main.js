@@ -1,4 +1,5 @@
-const {app, BrowserWindow} = require('electron');
+const electron = require('electron');
+const {app, BrowserWindow } = electron;
 const Templater = require('./templater');
 
 let templater = new Templater();
@@ -28,7 +29,9 @@ app.on('browser-window-created',function(e,window) {
 
 function createWindow() {
   // create the window
-  win = new BrowserWindow({width: 1930, height: 1090});
+
+  let primaryDisplay = electron.screen.getPrimaryDisplay();
+  win = new BrowserWindow(primaryDisplay.size);
   win.loadURL(`file://${__dirname}/views-dist/index.hbs`);
   win.webContents.openDevTools();
   win.on('closed', () => {
